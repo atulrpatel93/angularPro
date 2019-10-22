@@ -1,0 +1,122 @@
+<!-- breadcrumb start here -->
+<div class="bread-crumb">
+	<div class="container" *ngIf="grandService">
+		<h2>{{grandService.name}}</h2>
+	</div>
+</div>
+<!-- breadcrumb end here -->
+
+<!-- main container start here -->
+<div class="placetop mar-top" *ngIf="grandService">
+	<div class="">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="booking-form">
+          <div class="col-md-6 col-lg-6 col-sm-4 col-xs-12">
+						<div class="detail">
+							<h3>OTHER DETAIL</h3>
+							<ul class="list-unstyled">
+                <li *ngIf="originalPrice != (pricePreTax + tax)">
+                  <p><span style="width: 30%;" class="text-right">Sale Price</span>
+                  <span *ngIf="originalPrice != (pricePreTax + tax)" style="width: 20%; margin-right: 15%; text-decoration: line-through;" class="text-right">Reg. Price</span></p>
+                </li>
+								<li>
+                  <p>Price<span style="width: 30%;" class="text-right">$ {{pricePreTax}}</span>
+                  <span *ngIf="originalPrice != (pricePreTax + tax)" style="width: 20%; margin-right: 15%; text-decoration: line-through;" class="text-right">$ {{originalPrice}}</span></p>
+                </li>
+								<li><p>Taxes<span>$ {{tax}}</span></p></li>
+								<li><h6>Total<span>$ {{pricePreTax + tax}}</span></h6></li>
+                <li><h5>Deposit Now<span>$ {{depositWithTax}}</span></h5></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-md-6 col-lg-6 col-sm-8 col-xs-12">
+            <div class="detail">
+							<h3>Payments Steps</h3>
+              <ul class="list-unstyled">
+                <li>
+                  <div class="row">
+                    <div class="col-md-4"><b>Payment</b></div>
+                    <div class="col-md-4"><b>Due</b></div>
+                    <div class="col-md-4 text-right"><b>Cost</b></div>
+                  </div>
+                </li>
+                <ng-container *ngFor="let step of paymentSteps">
+                <li>
+                  <div class="row">
+                    <div class="col-md-4">{{step.type}}</div>
+                    <div class="col-md-4">{{step.due | date}}</div>
+                    <div class="col-md-4 text-right">{{step.amount == 0 ? 'Remaining Balance' : '$ ' + step.amount}}</div>
+                  </div>
+                </li>
+                </ng-container>
+              </ul>
+            </div>
+					</div>
+
+					<div class="clearfix"></div>
+          <hr />
+
+          <form id="personalDetailsForm" *ngIf="grandService" class="form-horizontal row" [formGroup]="form" novalidate>
+            <div class="col-sm-12" formArrayName="people">
+              <div class="col-sm-12">
+                <h4>YOUR PERSONAL INFORMATION</h4>
+              </div>
+              <div *ngFor="let person of form['controls'].people['controls']; let iINDEX=index">
+                <div formGroupName="{{ iINDEX }}">
+                  <div class="form-group col-sm-6">
+                    <label>FIRST NAME*</label>
+                    <input formControlName="firstName" name="first-name" class="form-control" value=""  type="text">
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label>LAST NAME*</label>
+                    <input formControlName="lastName" name="last-name" class="form-control" value=""  type="text">
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label>EMAIL*</label>
+                    <input formControlName="email" name="email" class="form-control" value=""  type="text">
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label>PHONE NO.</label>
+                    <input formControlName="phone" name="phone" class="form-control" value="" type="text">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <hr />
+                </div>
+              </div>
+
+              <div class="col-sm-12 confirmation">
+                <label>
+                  <input name="confirmation" value="yes" type="checkbox">By continuing, you agree to <a href="/assets/termsAndConditions.pdf" target="_blank">Terms & Conditions</a>.
+                </label>
+              </div>
+              <div class="col-sm-12">
+                <button class="btn-primary" (click)="submitOrder();">Confirm Booking</button>
+              </div>
+            </div>
+          </form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="palDiv hide">
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Pay Securly With</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>
+<img src="https://media.giphy.com/media/17mNCcKU1mJlrbXodo/giphy.gif" id="imgLoad" class="hide" />
+<!-- main container end here -->

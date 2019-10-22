@@ -1,0 +1,20 @@
+<div class="">
+  <div class="row">
+    <h2 class="col-md-12">Policies</h2>
+  </div>
+  <hr />
+
+  <ng-container *ngFor="let policy of policies">
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="">{{policy.title}}</h4>
+      </div>
+      <div class="col-md-12">
+        <div [innerHTML]="policy.description"></div>
+      </div>
+    </div>
+    <hr />
+  </ng-container>
+
+<br />
+<br />

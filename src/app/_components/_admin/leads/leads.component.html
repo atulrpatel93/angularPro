@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 example-container">
+      <h2>New</h2>
+
+      <div cdkDropList #newList="cdkDropList" [cdkDropListData]="new" [cdkDropListConnectedTo]="[assignedList]"
+        class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of new" cdkDrag>
+            {{item.id}} &nbsp;
+            {{item.name}} &nbsp;
+            {{item.url}} &nbsp;
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 example-container">
+      <h2>Assigned</h2>
+
+      <div cdkDropList #assignedList="cdkDropList" [cdkDropListData]="assigned"
+        [cdkDropListConnectedTo]="[newList,donesList]" class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of assigned" cdkDrag>
+            {{item.id}} &nbsp;
+            {{item.name}} &nbsp;
+            {{item.url}} &nbsp;
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3  example-container">
+      <h2>Done</h2>
+      <div cdkDropList #donesList="cdkDropList" [cdkDropListData]="dones" [cdkDropListConnectedTo]="[assignedList]"
+        class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of dones" cdkDrag>
+            {{item.id}} &nbsp;
+            {{item.name}} &nbsp;
+            {{item.url}} &nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

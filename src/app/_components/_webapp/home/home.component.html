@@ -1,0 +1,283 @@
+<div class="slice hide">
+	<slideshow	[height]="'420px'"
+				[backgroundSize]="'contain'"
+				[autoPlay]="true"
+				[showDots]="true"
+				[showArrows]="false"
+				[imageUrls]="imageUrlArray"
+				[lazyLoad]="imageUrlArray?.length > 1"
+				[autoPlayWaitForLazyLoad]="true">
+	</slideshow>
+
+	<!-- slide-detail start here -->
+	<div class="slide-detail hide">
+		<div class="container">
+			<form class="form-horizontal" method="post">
+				<div class="form-group">
+					<div class="col-sm-2 wid">
+						<h2>Where</h2>
+						<label>Destination</label>
+						<input name="s" class="form-control" value="" placeholder="Enter a destination or tour type.." type="text">
+					</div>
+
+					<div class="col-sm-10 wid1">
+						<h2>When</h2>
+						<div class="col-sm-2 paddleft wid date">
+							<label>From</label>
+							<input class="form-control" placeholder="dd/mm/yy" [matDatepicker]="dateFrom">
+							<mat-datepicker-toggle [for]="dateFrom"></mat-datepicker-toggle>
+							<mat-datepicker #dateFrom></mat-datepicker>
+						</div>
+						<div class="col-sm-2 wid date padd-left">
+							<label>To</label>
+							<input class="form-control" placeholder="dd/mm/yy" [matDatepicker]="dateTo">
+							<mat-datepicker-toggle [for]="dateTo"></mat-datepicker-toggle>
+							<mat-datepicker #dateTo></mat-datepicker>
+						</div>
+						<div class="col-sm-2 wid padd-left">
+							<label>Trip Type</label>
+							<mat-select class="selectpicker form-control bs-select-hidden" name="location" [(value)]="selected">
+								<mat-option value="0">Trip Type</mat-option>
+								<mat-option value="1">Location 1</mat-option>
+								<mat-option value="2">Location 2</mat-option>
+								<mat-option value="3">Location 3</mat-option>
+							</mat-select>
+						</div>
+						<div class="col-sm-3 wid2 padd-left">
+							<label>Max Budget</label>
+							<input name="s" class="form-control" value="" placeholder="Max budget ($)" type="text">
+						</div>
+						<div class="col-sm-3 wid2 padd-left">
+							<button class="btn-primary" type="button">Search Tours</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- slide-detail end here -->
+</div>
+
+<div class="placetop toursList regularToursLists hide">
+	<div class="container">
+		<div class="row">
+			<div class="places">
+				<h1>
+          Our Tours for
+          <select class="tourYears" id="ourToursYear" (change)="tourYearChange($event);">
+            <option value="2019">2019</option>
+            <option selected="selected" value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+          </select>
+        </h1>
+				<ul class="nav nav-tabs list-inline">
+          <ng-container *ngFor="let obj of tags">
+            <li>
+              <a data-toggle="tab" aria-expanded="false" href="#a_{{obj}}" id="a_id_{{obj}}" (click)="tourYearChange($event);">{{obj}}</a>
+            </li>
+          </ng-container>
+				</ul>
+			</div>
+			<div class="tab-content">
+          <div class="tab-pane">
+            <ng-container *ngFor="let obj of toursList">
+            <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+              <div class="product-thumb" style="cursor: pointer;" routerLink="/tours/{{obj.name}}">
+                <div class="image">
+                  <a href="#"><img src="{{ obj.mainImage.url }}" alt="{{ obj.mainImage.name }}" title="{{ obj.mainImage.name }}" class="img-responsive tour-thumbnail"></a>
+                  <div class="hoverbox">
+                    <div class="icon_plus" aria-hidden="true"></div>
+                  </div>
+                  <div class="matter">
+                    <p>start from $ {{ obj.totalCost }}</p>
+                  </div>
+                </div>
+                <div class="caption">
+                  <div class="inner">
+                    <img src="assets/images/icon-map.png" class="img-responsive" title="map" alt="map">
+                    <h4>{{ obj.name }}</h4>
+                    <div class="rate">
+                      <span>{{obj.numOfReviews}} Reviews</span>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                    </div>
+                    <br />
+                    <div class="tourDescription" [innerHTML]="obj.promotionalDesc.replace('pre', 'div')"></div>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </ng-container>
+          </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="placetop toursList featuredToursLists">
+	<div class="container">
+		<div class="row">
+			<div class="places">
+        <h1>
+          Promotional Tours
+        </h1>
+				<ul class="nav nav-tabs list-inline">
+          <ng-container *ngFor="let obj of featuredTags">
+            <li>
+              <a data-toggle="tab" aria-expanded="false" href="#a_{{obj}}" id="a_id_{{obj}}" (click)="featuredTourYearChange($event);">{{obj}}</a>
+            </li>
+          </ng-container>
+				</ul>
+			</div>
+			<div class="tab-content">
+        <div class="tab-pane">
+          <ng-container *ngFor="let obj of featuredToursLists">
+            <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+              <div class="product-thumb" style="cursor: pointer;" routerLink="/tours/{{obj.name}}">
+                <div class="image">
+                  <a href="#"><img src="{{ obj.mainImage.url }}" alt="{{ obj.mainImage.name }}" title="{{ obj.mainImage.name }}" class="img-responsive tour-thumbnail"></a>
+                  <div class="hoverbox">
+                    <div class="icon_plus" aria-hidden="true"></div>
+                  </div>
+                  <div class="matter">
+                    <p>start from $ {{ obj.totalCost }}</p>
+                  </div>
+                </div>
+                <div class="caption">
+                  <div class="inner">
+                    <img src="assets/images/icon-map.png" class="img-responsive" title="map" alt="map">
+                    <h4>{{ obj.name }}</h4>
+                    <div class="rate">
+                      <span>{{obj.numOfReviews}} Reviews</span>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                    </div>
+                    <br />
+                    <div class="tourDescription" [innerHTML]="obj.promotionalDesc.replace('pre', 'div')"></div>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="video">
+	<div class="container">
+    <iframe height="360px" width="100%" src="https://www.youtube.com/embed/wQ00AsJaUbY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</div>
+</div>
+
+<div class="testimonail">
+	<div class="container">
+		<div class="row">
+			<div class="places">
+				<h1>what travelers are saying</h1>
+				<p>Reviews taken from our Twitter, Facebook, Instagram, and WIX</p>
+				<hr>
+			</div>
+			 <div class="testimonails">
+            <swiper [config]="config">
+							<ng-container *ngFor="let obj of reviewsList">
+								<div class="owl-item" >
+									<div class="item">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="box">
+												<img src="{{ obj.userImage }}" alt="pic2" title="pic2" class="img-responsive">
+												<div class="caption">
+													<h4>{{ obj.userName }}</h4>
+													<div class="rate">
+														<div class="pull-left">
+															<i class="fa fa-star" aria-hidden="true"></i>
+															<i class="fa fa-star" aria-hidden="true"></i>
+															<i class="fa fa-star" aria-hidden="true"></i>
+															<i class="fa fa-star" aria-hidden="true"></i>
+															<i class="fa fa-star-half-o" aria-hidden="true"></i>
+														</div>
+													</div>
+													<p>"{{ obj.description }}"</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-container>
+						</swiper>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<div class="placetop" id="gallery-hidden-mobile">
+			<div class="container">
+				<div class="row">
+					<div class="places">
+						<h1>our gallery </h1>
+						<p>A collection of images from our upcoming tours</p>
+						<hr>
+					</div>
+				</div>
+			</div>
+			<div class="tab-content gallery">
+				<div class="tab-pane active" id="alls">
+					<ul class="list-inline">
+				<ng-container *ngFor="let img of imgGallary">
+				<li>
+					<div class="product-thumb">
+					<div class="image">
+						<img src="{{img.src}}" alt="{{img.title}}" title="{{img.title}}" class="img-responsive" />
+					</div>
+					</div>
+				</li>
+				</ng-container>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="blog hide">
+	<div class="container">
+		<div class="row">
+			<div class="places">
+				<h1>our blog</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas a suscipit quam, ut vestibulum lorem.</p>
+				<hr>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="product-thumb">
+					<div class="image">
+						<a href="#"><img src="assets/images/blog1.jpg" alt="blog1" title="blog1" class="img-responsive"></a>
+						<div class="hoverbox">
+							<div class="icon_plus" aria-hidden="true"></div>
+						</div>
+						<div class="matter">
+							<ul class="list-inline">
+								<li><a href="#">26 Dec 2016</a></li>
+								<li><a href="#">by john doe </a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="caption">
+						<div class="inner">
+							<h4>Awesome Blog Post Title</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis elementum, dolor sit amet luctus phare-tra, turpis lacus rhoncus ipsum...</p>
+						</div>
+						<div class="text-center">
+							<button type="button" onclick="location.href='blog.html'">Read More <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,530 @@
+<!-- breadcrumb start here -->
+<div class="bread-crumb">
+	<div class="container">
+		<h2 *ngIf="grandService">{{ grandService.name }}</h2>
+		<!--
+    <ul class="list-inline">
+			<li><a href="/home">home</a></li>
+			<li><a href="packages.html">Packages</a></li>
+			<li><a href="package-detail-view.html">safari tour</a></li>
+		</ul>
+    -->
+	</div>
+</div>
+<!-- breadcrumb end here -->
+
+<!-- main container start here -->
+<div class="placetop">
+	<div class="">
+		<div class="row" id="mobile-flex">
+			<div class="col-sm-3" id="order-2-mobile">
+				<div class="left-box">
+					<h6>TALK TO EXPERT</h6>
+					<div class="talk">
+						<ul class="list-unstyled">
+							<!--
+              <li>
+								<i class="fa fa-skype" aria-hidden="true"></i>
+								<h4>CONTACT SKYPE</h4>
+								<P>John Doe</P>
+							</li>
+              -->
+							<li>
+								<i class="fa fa-phone" aria-hidden="true"></i>
+								<h4>PHONE</h4>
+								<P><a href="tel:18886368080">1888 636 8080</a></P>
+							</li>
+							<li>
+								<i class="fa fa-envelope" aria-hidden="true"></i>
+								<h4>EMAIL</h4>
+								<P><a href="mailto:getaway@collinstours.ca">getaway@collinstours.ca</a></P>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="left-box" *ngIf="lastMinuteTours">
+					<h6>Last Call DEALS</h6>
+					<div class="last1">
+						<ul class="list-unstyled">
+              <ng-container *ngFor="let tour of lastMinuteTours">
+                <li>
+                  <div class="product-thumb lastMinuteDeals" style="cursor: pointer;" routerLink="/tours/{{tour.name}}">
+                    <div class="image">
+                      <img src="{{tour.mainImage.url}}" class="img-responsive" alt="{{tour.name}}" title="{{tour.name}}" />
+                      <div class="hoverbox">
+                        <div class="icon_plus" aria-hidden="true"></div>
+                      </div>
+                    </div>
+                    <div class="caption">
+                      <div class="rate">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                      </div>
+                      <p>{{tour.name}}</p>
+                    </div>
+                  </div>
+                </li>
+              </ng-container>
+						</ul>
+					</div>
+				</div>
+				<div class="left-image hide">
+					<img src="assets/images/tour/banner1.jpg" class="img-responsive" alt="banner1" title="banner1" />
+				</div>
+			</div>
+			<div class="col-sm-9 mainpage" id="order-1-mobile">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="thumb" *ngIf="grandService">
+							<img src="{{grandService.mainImage.url}}" alt="{{grandService.name}}" title="{{grandService.name}}" class="img-responsive"/>
+						</div>
+					</div>
+
+					<div class="tour-detail col-sm-12" style="margin-top: 20px;">
+            <form class="form-horizontal book-now" method="post">
+              <div class="row">
+                <div class="form-group col-sm-2 padd-left">
+                  <label>ADULTS</label>
+                  <mat-select class="selectpicker form-control" name="adults" [(value)]="adults" (selectionChange)="recalculatePrice();">
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="3">3</mat-option>
+                    <mat-option value="4">4</mat-option>
+                  </mat-select>
+                </div>
+                <div class="form-group col-sm-2 padd-left">
+                  <label>KIDS</label>
+                  <mat-select class="selectpicker form-control" name="kids" [(value)]="kids" (selectionChange)="recalculatePrice();">
+                    <mat-option value="0">0</mat-option>
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="3">3</mat-option>
+                  </mat-select>
+                </div>
+                <div class="form-group col-sm-2 padd-left">
+                  <label>TOTAL AMOUNT</label>
+                  <input *ngIf="grandService" name="totalCost" disabled="disabled" class="form-control disabled" value="" placeholder="${{grandService.totalCost}}" type="text">
+                </div>
+                <div class="col-sm-6 mar-t padd-left">
+                  <a href="javascript:void(0);" (click)="bookNow();" class="btn-primary">Book NOW</a>
+                </div>
+              </div>
+            </form>
+						<ul class="nav nav-tabs list-inline">
+							<li class="active">
+								<mat-checkbox></mat-checkbox><a href="#detail" data-toggle="tab" aria-expanded="true">Package Detail</a>
+							</li>
+
+               				 <li class="">
+								<mat-checkbox></mat-checkbox><a href="#yes-no" data-toggle="tab" aria-expanded="false">Inclusions</a>
+							</li>
+
+							<li class="">
+								<mat-checkbox></mat-checkbox><a href="#gallery" data-toggle="tab" aria-expanded="false">Gallery</a>
+							</li>
+							<li class="hide">
+								<mat-checkbox></mat-checkbox><a href="#review" data-toggle="tab" aria-expanded="false">Reviews</a>
+							</li>
+							<li class="hide">
+								<mat-checkbox></mat-checkbox><a href="#add-review" data-toggle="tab" aria-expanded="false">Add Review</a>
+							</li>
+						</ul>
+				<div class="tab-content">
+             		<div class="tab-pane col-sm-12" id="yes-no">
+						<ul class="list-unstyled">
+							<ng-container *ngFor="let inc of includedOrNot">
+								<li class="li_inc_{{inc.id}}" (click)="expandInclusions(inc.id);">
+								<img src="{{inc.iconUrl}}" alt="{{inc.title}}" title="{{inc.title}}" class="img-responsive"/> {{inc.title}}
+									<span [className]="inc.isIncluded ? 'pull-right yes' : 'pull-right No'" [innerHtml]="inc.isIncluded ? 'Yes' : 'No'"></span>
+								</li>
+								<li class="li_inc_{{inc.id}} inc_details hide" [innerHTML]="inc.details"></li>
+							</ng-container>
+						</ul>
+					</div>
+
+							<div *ngIf="grandService" class="tab-pane active col-sm-12" id="detail" [innerHTML]="grandService.details.replace('pre', 'div')"></div>
+
+							<div class="tab-pane col-sm-12" id="gallery">
+								<ul class="list-inline">
+
+									<li *ngFor="let img of images">
+                    					<img src="{{img.url}}" class="img-responsive" alt="img.name" title="img.name" />
+                  					</li>
+								</ul>
+							</div>
+
+              <div *ngIf="reviewsList" class="tab-pane col-sm-12 hide" id="review">
+                <ng-container *ngFor="let obj of reviewsList">
+                  <div class="review">
+                    <img src="{{obj.userImage}}" class="img-responsive" alt="{{obj.userName}}" title="{{obj.userName}}" />
+                    <div class="caption">
+                      <h6>{{obj.userName}} <span>{{ obj.created | date }}</span></h6>
+                      <div class="rate">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                      </div>
+                      <p>"{{ obj.description }}"</p>
+                    </div>
+                  </div>
+								<!--
+                <div class="text-center">
+									<button type="button" class="btn-primary">View More <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+								</div>
+                -->
+                </ng-container>
+							</div>
+
+              <!--
+              <div class="tab-pane col-sm-12" id="add-review">
+                <h2>ADD REVIEW</h2>
+                <form class="form-horizontal row" method="post">
+                  <fieldset>
+                    <div class="form-group col-sm-6">
+                      <label>Name*</label>
+                      <input class="form-control" id="input-name" value="" name="jobname" required="" type="text">
+                      <label>Email*</label>
+                      <input class="form-control" id="input-email" value="" name="email" required="" type="text">
+                      <label>YOUR RATING*</label>
+                      <div class="rate">
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                      </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                      <label>YOUR REVIEW*</label>
+                      <textarea class="form-control" id="input-enquiry" rows="10" name="enquiry" placeholder="" required=""></textarea>
+                      <button type="submit" value="Submit" class="btn btn-primary btnus">Submit</button>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+              -->
+						</div>
+					</div>
+				</div>
+
+				<div class="book-now col-sm-12" *ngIf="grandService">
+					<h1>BOOK NOW <span>$ {{grandService.totalCost}}</span></h1>
+					<p [innerHTML]="grandService.priceDetails.replace('pre', 'div')"></p>
+					<hr>
+					<form class="form-horizontal" method="post">
+						<!--
+            <div class="form-group col-sm-3 paddleft">
+							<div class="date">
+								<label>AVAILABLE ON</label>
+								<input class="form-control" placeholder="dd/mm/yy" [matDatepicker]="avaiDate">
+							<mat-datepicker-toggle [for]="avaiDate"></mat-datepicker-toggle>
+							<mat-datepicker #avaiDate></mat-datepicker>
+							</div>
+						</div>
+            -->
+						<div class="form-group col-sm-2 padd-left">
+							<label>ADULTS</label>
+							<mat-select class="selectpicker form-control" name="adults" [(value)]="adults" (selectionChange)="recalculatePrice();">
+                <mat-option value="1">1</mat-option>
+								<mat-option value="2">2</mat-option>
+								<mat-option value="3">3</mat-option>
+								<mat-option value="4">4</mat-option>
+							</mat-select>
+						</div>
+						<div class="form-group col-sm-2 padd-left">
+							<label>KIDS</label>
+							<mat-select class="selectpicker form-control" name="kids" [(value)]="kids" (selectionChange)="recalculatePrice();">
+                <mat-option value="0">0</mat-option>
+								<mat-option value="1">1</mat-option>
+								<mat-option value="2">2</mat-option>
+								<mat-option value="3">3</mat-option>
+							</mat-select>
+						</div>
+						<div class="form-group col-sm-2 padd-left">
+							<label>TOTAL AMOUNT</label>
+							<input name="totalCost" disabled="disabled" class="form-control disabled" value="" placeholder="${{grandService.totalCost}}" type="text">
+						</div>
+						<div class="col-sm-6 mar-t padd-left">
+							<a href="javascript:void(0);" (click)="bookNow();" class="btn-primary">Book NOW</a>
+						</div>
+					</form>
+				</div>
+
+				<div class="clearfix"></div>
+
+        <!--
+				<div class="row tour packages" id="related-pro">
+					<div class="places related">
+						<h1>related packages</h1>
+						<hr>
+					</div>
+					<div class="swiper-container" [swiper]="config">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide">
+								<div class="item">
+									<div class="product-layout product-grid col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="product-thumb">
+											<div class="image">
+												<a href="#"><img src="assets/images/package/01.jpg" alt="image" title="image" class="img-responsive" /></a>
+												<div class="hoverbox">
+													<div class="icon_plus" aria-hidden="true"></div>
+												</div>
+											</div>
+											<div class="caption">
+												<ul class="list-inline link">
+													<li><i class="fa fa-clock-o"></i>12 Days</li>
+													<li><i class="fa fa-map-marker"></i> South Africa</li>
+													<li><i class="fa fa-dollar"></i> 3100</li>
+												</ul>
+												<div class="inner">
+													<h4>Safari Tour</h4>
+													<div class="rate">
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star-half-o" aria-hidden="true"></i>
+													</div>
+													<ul class="list-inline">
+														<li><i class="fa fa-map-marker"></i> South Africa</li>
+														<li><i class="fa fa-clock-o"></i>12 Days</li>
+													</ul>
+													<p class="des">Lorem ipsum dolor sit amet, consectetur dolor sit amet[...]</p>
+												</div>
+												<div class="text-left">
+													<button type="button" onclick="location.href='hotel-booking-form.html'">Book Now <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<button type="button" onclick="location.href='package-detail-view.html'">View More <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<p>$3100.00</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="item">
+									<div class="product-layout product-grid col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="product-thumb">
+											<div class="image">
+												<a href="#"><img src="assets/images/package/02.jpg" alt="image" title="image" class="img-responsive" /></a>
+												<div class="hoverbox">
+													<div class="icon_plus" aria-hidden="true"></div>
+												</div>
+											</div>
+											<div class="caption">
+												<ul class="list-inline link">
+													<li><i class="fa fa-clock-o"></i>12 Days</li>
+													<li><i class="fa fa-map-marker"></i> South Africa</li>
+													<li><i class="fa fa-dollar"></i> 3100</li>
+												</ul>
+												<div class="inner">
+													<h4>Safari Tour</h4>
+													<div class="rate">
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star-half-o" aria-hidden="true"></i>
+													</div>
+													<ul class="list-inline">
+														<li><i class="fa fa-map-marker"></i> South Africa</li>
+														<li><i class="fa fa-clock-o"></i>12 Days</li>
+													</ul>
+													<p class="des">Lorem ipsum dolor sit amet, consectetur dolor sit amet[...]</p>
+												</div>
+												<div class="text-left">
+													<button type="button" onclick="location.href='hotel-booking-form.html'">Book Now <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<button type="button" onclick="location.href='package-detail-view.html'">View More <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<p>$3100.00</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="item">
+									<div class="product-layout product-grid col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="product-thumb">
+											<div class="image">
+												<a href="#"><img src="assets/images/package/03.jpg" alt="image" title="image" class="img-responsive" /></a>
+												<div class="hoverbox">
+													<div class="icon_plus" aria-hidden="true"></div>
+												</div>
+											</div>
+											<div class="caption">
+												<ul class="list-inline link">
+													<li><i class="fa fa-clock-o"></i>12 Days</li>
+													<li><i class="fa fa-map-marker"></i> South Africa</li>
+													<li><i class="fa fa-dollar"></i> 3100</li>
+												</ul>
+												<div class="inner">
+													<h4>Safari Tour</h4>
+													<div class="rate">
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star-half-o" aria-hidden="true"></i>
+													</div>
+													<ul class="list-inline">
+														<li><i class="fa fa-map-marker"></i> South Africa</li>
+														<li><i class="fa fa-clock-o"></i>12 Days</li>
+													</ul>
+													<p class="des">Lorem ipsum dolor sit amet, consectetur dolor sit amet[...]</p>
+												</div>
+												<div class="text-left">
+													<button type="button" onclick="location.href='hotel-booking-form.html'">Book Now <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<button type="button" onclick="location.href='package-detail-view.html'">View More <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<p>$3100.00</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="item">
+									<div class="product-layout product-grid col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="product-thumb">
+											<div class="image">
+												<a href="#"><img src="assets/images/package/01.jpg" alt="image" title="image" class="img-responsive" /></a>
+												<div class="hoverbox">
+													<div class="icon_plus" aria-hidden="true"></div>
+												</div>
+											</div>
+											<div class="caption">
+												<ul class="list-inline link">
+													<li><i class="fa fa-clock-o"></i>12 Days</li>
+													<li><i class="fa fa-map-marker"></i> South Africa</li>
+													<li><i class="fa fa-dollar"></i> 3100</li>
+												</ul>
+												<div class="inner">
+													<h4>Safari Tour</h4>
+													<div class="rate">
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star-half-o" aria-hidden="true"></i>
+													</div>
+													<ul class="list-inline">
+														<li><i class="fa fa-map-marker"></i> South Africa</li>
+														<li><i class="fa fa-clock-o"></i>12 Days</li>
+													</ul>
+													<p class="des">Lorem ipsum dolor sit amet, consectetur dolor sit amet[...]</p>
+												</div>
+												<div class="text-left">
+													<button type="button" onclick="location.href='hotel-booking-form.html'">Book Now <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<button type="button" onclick="location.href='package-detail-view.html'">View More <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<p>$3100.00</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="item">
+									<div class="product-layout product-grid col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="product-thumb">
+											<div class="image">
+												<a href="#"><img src="assets/images/package/02.jpg" alt="image" title="image" class="img-responsive" /></a>
+												<div class="hoverbox">
+													<div class="icon_plus" aria-hidden="true"></div>
+												</div>
+											</div>
+											<div class="caption">
+												<ul class="list-inline link">
+													<li><i class="fa fa-clock-o"></i>12 Days</li>
+													<li><i class="fa fa-map-marker"></i> South Africa</li>
+													<li><i class="fa fa-dollar"></i> 3100</li>
+												</ul>
+												<div class="inner">
+													<h4>Safari Tour</h4>
+													<div class="rate">
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star-half-o" aria-hidden="true"></i>
+													</div>
+													<ul class="list-inline">
+														<li><i class="fa fa-map-marker"></i> South Africa</li>
+														<li><i class="fa fa-clock-o"></i>12 Days</li>
+													</ul>
+													<p class="des">Lorem ipsum dolor sit amet, consectetur dolor sit amet[...]</p>
+												</div>
+												<div class="text-left">
+													<button type="button" onclick="location.href='hotel-booking-form.html'">Book Now <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<button type="button" onclick="location.href='package-detail-view.html'">View More <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<p>$3100.00</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="item">
+									<div class="product-layout product-grid col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="product-thumb">
+											<div class="image">
+												<a href="#"><img src="assets/images/package/03.jpg" alt="image" title="image" class="img-responsive" /></a>
+												<div class="hoverbox">
+													<div class="icon_plus" aria-hidden="true"></div>
+												</div>
+											</div>
+											<div class="caption">
+												<ul class="list-inline link">
+													<li><i class="fa fa-clock-o"></i>12 Days</li>
+													<li><i class="fa fa-map-marker"></i> South Africa</li>
+													<li><i class="fa fa-dollar"></i> 3100</li>
+												</ul>
+												<div class="inner">
+													<h4>Safari Tour</h4>
+													<div class="rate">
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star" aria-hidden="true"></i>
+														<i class="fa fa-star-half-o" aria-hidden="true"></i>
+													</div>
+													<ul class="list-inline">
+														<li><i class="fa fa-map-marker"></i> South Africa</li>
+														<li><i class="fa fa-clock-o"></i>12 Days</li>
+													</ul>
+													<p class="des">Lorem ipsum dolor sit amet, consectetur dolor sit amet[...]</p>
+												</div>
+												<div class="text-left">
+													<button type="button" onclick="location.href='hotel-booking-form.html'">Book Now <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<button type="button" onclick="location.href='package-detail-view.html'">View More <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+													<p>$3100.00</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="owl-controls clickable">
+						  <div class="owl-buttons">
+						    <div class="owl-prev">Prev</div>
+						    <div class="owl-next">Next</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+        -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- main container end here -->

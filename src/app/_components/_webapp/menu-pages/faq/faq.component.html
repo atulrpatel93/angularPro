@@ -1,0 +1,20 @@
+<div class="">
+  <div class="row">
+    <h2 class="col-md-12">Frequently Asked Questions (FAQ)</h2>
+  </div>
+  <hr />
+
+  <ng-container *ngFor="let faq of faqs">
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="">{{faq.title}}</h4>
+      </div>
+      <div class="col-md-12">
+        <div [innerHTML]="faq.description"></div>
+      </div>
+    </div>
+    <hr />
+  </ng-container>
+
+<br />
+<br />

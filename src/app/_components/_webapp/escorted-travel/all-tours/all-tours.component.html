@@ -1,0 +1,46 @@
+<div class="placetop toursList featuredToursLists">
+	<div class="container">
+		<div class="row">
+			<div class="places">
+        <h1>
+          {{tag}} Tours
+        </h1>
+			</div>
+			<div class="tab-content">
+        <div class="tab-pane" *ngIf="grandServicesList">
+          <ng-container *ngFor="let obj of grandServicesList">
+            <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+              <div class="product-thumb" style="cursor: pointer;" routerLink="/tours/{{obj.name}}">
+                <div class="image">
+                  <a href="#"><img src="{{ obj.mainImage.url }}" alt="{{ obj.mainImage.name }}" title="{{ obj.mainImage.name }}" class="img-responsive tour-thumbnail"></a>
+                  <div class="hoverbox">
+                    <div class="icon_plus" aria-hidden="true"></div>
+                  </div>
+                  <div class="matter">
+                    <p>start from $ {{ obj.totalCost }}</p>
+                  </div>
+                </div>
+                <div class="caption">
+                  <div class="inner">
+                    <img src="assets/images/icon-map.png" class="img-responsive" title="map" alt="map">
+                    <h4>{{ obj.name }}</h4>
+                    <div class="rate">
+                      <span>{{obj.numOfReviews}} Reviews</span>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                    </div>
+                    <br />
+                    <div class="tourDescription" [innerHTML]="obj.promotionalDesc.replace('pre', 'div')"></div>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+			</div>
+		</div>
+	</div>
+</div>
